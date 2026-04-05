@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from scipy.stats import shapiro
+from scipy.stats import levene
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
     """Cria uma tabela de distribuição de frequências para uma coluna de um dataframe.
@@ -89,3 +90,17 @@ def analise_shapiro(dataframe, alfa=0.05):
             print(f"{coluna} segue uma distribuição normal (valor p: {pvalue=:.3f})")
         else:
             print(f"{coluna} não segue uma distribuição normal (valor p: {pvalue=:.3f})")
+
+def analise_levene(dataframe, alfa=0.05, center="mean"):
+    print("Teste de levene")
+
+    estatistica_levene, pvalue = levene(
+        *[dataframe[coluna] for coluna in dataframe.columns], 
+        center=center, 
+        nan_policy="omit")
+
+    print(f"{estatistica_levene=:.3f}")
+    if pvalue > alfa:
+        print(f"Variancias iguais (valor p: {pvalue=:.3f})")
+    else:
+        print(f"Ao menos uma variancia diferente (valor p: {pvalue=:.3f})")
