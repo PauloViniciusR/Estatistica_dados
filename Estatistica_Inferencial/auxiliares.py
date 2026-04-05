@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-
+from scipy.stats import shapiro
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
     """Cria uma tabela de distribuição de frequências para uma coluna de um dataframe.
@@ -79,3 +79,13 @@ def composicao_boxplot(dataframe, coluna, intervalos="auto"):
     ax2.legend()
 
     plt.show()
+
+def analise_shapiro(dataframe, alfa=0.05):
+    print("Teste de Shapiro-Wilk")
+    for coluna in dataframe.columns:
+        estatistica, pvalue = shapiro(dataframe[coluna])
+        print(f"{estatistica=:.3f}")
+        if pvalue > alfa:
+            print(f"{coluna} segue uma distribuição normal (valor p: {pvalue=:.3f})")
+        else:
+            print(f"{coluna} não segue uma distribuição normal (valor p: {pvalue=:.3f})")
