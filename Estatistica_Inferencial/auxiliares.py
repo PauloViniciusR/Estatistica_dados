@@ -104,3 +104,10 @@ def analise_levene(dataframe, alfa=0.05, center="mean"):
         print(f"Variancias iguais (valor p: {pvalue=:.3f})")
     else:
         print(f"Ao menos uma variancia diferente (valor p: {pvalue=:.3f})")
+
+def analises_shapiro_levene(dataframe, alfa=0.05, center="mean"):
+    analise_shapiro(dataframe, alfa)
+
+    print()
+
+    analise_levene(dataframe, alfa, center)
