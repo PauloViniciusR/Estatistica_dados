@@ -83,7 +83,7 @@ def composicao_boxplot(dataframe, coluna, intervalos="auto"):
 def analise_shapiro(dataframe, alfa=0.05):
     print("Teste de Shapiro-Wilk")
     for coluna in dataframe.columns:
-        estatistica, pvalue = shapiro(dataframe[coluna])
+        estatistica, pvalue = shapiro(dataframe[coluna], nan_policy="omit")
         print(f"{estatistica=:.3f}")
         if pvalue > alfa:
             print(f"{coluna} segue uma distribuição normal (valor p: {pvalue=:.3f})")
