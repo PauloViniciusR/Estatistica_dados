@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.stats import shapiro
-from scipy.stats import levene
+from scipy.stats import shapiro, levene, ttest_ind
+
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
     """Cria uma tabela de distribuição de frequências para uma coluna de um dataframe.
@@ -111,3 +111,24 @@ def analises_shapiro_levene(dataframe, alfa=0.05, center="mean"):
     print()
 
     analise_levene(dataframe, alfa, center)
+
+def analise_ttest_ind(
+    dataframe,
+    alfa=0.05,
+    variancia_igual=True,
+    alternative="two-sided",
+):
+    
+    estatistica_ttest, pvalue_ttest = ttest_ind(
+        *[dataframe[coluna] for coluna in dataframe.columns],
+        equal_var=variancia_igual,
+        alternative=alternative,
+        nan_policy="omit"
+    )
+
+    print(f"{estatistica_ttest=:.3f}")
+
+    if pvalue_ttest > alfa:
+        print(f"Não rejeita a hipótese nula (valor p: {pvalue_ttest:.3f})")
+    else:
+        print(f"Rejeita a hipótese nula (valor p: {pvalue_ttest:.3f})")
