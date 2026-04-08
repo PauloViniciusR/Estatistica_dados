@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.stats import shapiro, levene, ttest_ind
+from scipy.stats import shapiro, levene, ttest_ind, ttest_rel
 
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
@@ -132,3 +132,24 @@ def analise_ttest_ind(
         print(f"Não rejeita a hipótese nula (valor p: {pvalue_ttest:.3f})")
     else:
         print(f"Rejeita a hipótese nula (valor p: {pvalue_ttest:.3f})")
+
+def analise_ttest_rel(
+    dataframe,
+    alfa=0.05,
+    alternative="two-sided",
+):
+    
+    estatistica_ttest, pvalue_ttest = ttest_rel(
+        *[dataframe[coluna] for coluna in dataframe.columns],
+        alternative=alternative,
+        nan_policy="omit"
+    )
+
+    print(f"{estatistica_ttest=:.3f}")
+
+    if pvalue_ttest > alfa:
+        print(f"Não rejeita a hipótese nula (valor p: {pvalue_ttest:.3f})")
+    else:
+        print(f"Rejeita a hipótese nula (valor p: {pvalue_ttest:.3f})")
+
+
