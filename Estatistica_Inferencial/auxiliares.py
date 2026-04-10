@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel
+from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel, wilcoxon
 
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
@@ -163,3 +163,23 @@ def analise_anova_one_way(
         print(f"Não rejeita a hipótese nula (valor p: {valor_p_f:.3f})")
     else:
         print(f"Rejeita a hipótese nula (valor p: {valor_p_f:.3f})")
+
+
+def analise_wilcoxon(
+    dataframe,
+    alfa=0.05,
+    alternative="two-sided"
+):
+    
+    print("Teste de Wilcoxon")
+    estatistica_wilcoxon, valor_p_wilcoxon = wilcoxon(
+        *[dataframe[coluna] for coluna in dataframe.columns], 
+        nan_policy="omit", 
+        alternative=alternative
+    )
+        
+    print(f"{estatistica_wilcoxon=:.3f}")
+    if valor_p_wilcoxon > alfa:
+        print(f"Não rejeita a hipótese nula (valor p: {valor_p_wilcoxon:.3f})")
+    else:
+        print(f"Rejeita a hipótese nula (valor p: {valor_p_wilcoxon:.3f})")
