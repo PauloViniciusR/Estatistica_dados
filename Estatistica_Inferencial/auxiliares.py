@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel, wilcoxon, mannwhitneyu
+from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel, wilcoxon, mannwhitneyu, friedmanchisquare
 
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
@@ -203,3 +203,21 @@ def analise_mannwhitneyu(
         print(f"Não rejeita a hipótese nula (valor p: {valor_p_mw:.3f})")
     else:
         print(f"Rejeita a hipótese nula (valor p: {valor_p_mw:.3f})")
+
+
+def analise_friedman(
+    dataframe,
+    alfa=0.05,
+):
+    
+    print("Teste de Friedman")
+    estatistica_friedman, valor_p_friedman = friedmanchisquare(
+        *[dataframe[coluna] for coluna in dataframe.columns], 
+        nan_policy="omit", 
+    )
+        
+    print(f"{estatistica_friedman=:.3f}")
+    if valor_p_friedman > alfa:
+        print(f"Não rejeita a hipótese nula (valor p: {valor_p_friedman:.3f})")
+    else:
+        print(f"Rejeita a hipótese nula (valor p: {valor_p_friedman:.3f})")
