@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel, wilcoxon, mannwhitneyu, friedmanchisquare
+from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel, wilcoxon, mannwhitneyu, friedmanchisquare, kruskal
 
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
@@ -221,3 +221,21 @@ def analise_friedman(
         print(f"Não rejeita a hipótese nula (valor p: {valor_p_friedman:.3f})")
     else:
         print(f"Rejeita a hipótese nula (valor p: {valor_p_friedman:.3f})")
+
+
+def analise_kruskal(
+    dataframe,
+    alfa=0.05,
+):
+    
+    print("Teste de kruskal")
+    estatistica_kruskal, valor_p_kruskal = kruskal(
+        *[dataframe[coluna] for coluna in dataframe.columns], 
+        nan_policy="omit", 
+    )
+        
+    print(f"{estatistica_kruskal=:.3f}")
+    if valor_p_kruskal > alfa:
+        print(f"Não rejeita a hipótese nula (valor p: {valor_p_kruskal:.3f})")
+    else:
+        print(f"Rejeita a hipótese nula (valor p: {valor_p_kruskal:.3f})")
