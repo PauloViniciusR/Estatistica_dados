@@ -1,3 +1,11 @@
+import os
+from pathlib import Path
+
+_cache_dir = Path(__file__).resolve().parent / ".cache"
+_cache_dir.mkdir(exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", str(_cache_dir / "matplotlib"))
+os.environ.setdefault("XDG_CACHE_HOME", str(_cache_dir))
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -38,7 +46,7 @@ def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
     return df_estatistica
 
 
-def composicao_histograma_boxplot(dataframe, coluna, intervalos="auto"):
+def composicao_boxplot(dataframe, coluna, intervalos="auto"):
     fig, (ax1, ax2) = plt.subplots(
         nrows=2,
         ncols=1,
@@ -72,6 +80,12 @@ def composicao_histograma_boxplot(dataframe, coluna, intervalos="auto"):
     ax2.legend()
     
     plt.show()
+
+
+def composicao_histograma_boxplot(dataframe, coluna, intervalos="auto"):
+    """Mantem compatibilidade com notebooks que usam o nome mais descritivo."""
+    return composicao_boxplot(dataframe, coluna, intervalos)
+
 
 def analise_shapiro(dataframe, alfa=0.05):
     print("Teste de Shapiro-Wilk")
