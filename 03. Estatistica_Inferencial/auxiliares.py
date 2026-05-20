@@ -9,7 +9,7 @@ os.environ.setdefault("XDG_CACHE_HOME", str(_cache_dir))
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.stats import f_oneway, levene, shapiro, ttest_ind, ttest_rel, wilcoxon, mannwhitneyu, friedmanchisquare, kruskal
+from scipy.stats import f_oneway,levene, shapiro, ttest_ind, ttest_rel, wilcoxon, mannwhitneyu, friedmanchisquare, kruskal
 
 
 def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
